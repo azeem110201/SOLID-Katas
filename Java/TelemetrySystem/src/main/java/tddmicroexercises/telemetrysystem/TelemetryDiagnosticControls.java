@@ -4,8 +4,8 @@ public class TelemetryDiagnosticControls
 {
     private final String DiagnosticChannelConnectionString = "*111#";
 
-    private ITelemetryClientCommunication iTelemetryClientCommunication;
-    private ITelemetryClientConnection iTelemetryClientConnection;
+    private final ITelemetryClientCommunication iTelemetryClientCommunication;
+    private final ITelemetryClientConnection iTelemetryClientConnection;
 
     private String diagnosticInfo = "";
 
@@ -29,13 +29,13 @@ public class TelemetryDiagnosticControls
             iTelemetryClientConnection.disconnect();
     
             int retryLeft = 3;
-            while (iTelemetryClientCommunication.getOnlineStatus() == false && retryLeft > 0)
+            while (!iTelemetryClientCommunication.getOnlineStatus() && retryLeft > 0)
             {
                 iTelemetryClientConnection.connect(DiagnosticChannelConnectionString);
                 retryLeft -= 1;
             }
              
-            if(iTelemetryClientCommunication.getOnlineStatus() == false)
+            if(!iTelemetryClientCommunication.getOnlineStatus())
             {
                 throw new Exception("Unable to connect.");
             }
